@@ -1,0 +1,40 @@
+
+CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, hash TEXT NOT NULL, cash NUMERIC NOT NULL DEFAULT 10000.00);
+CREATE TABLE sqlite_sequence(name,seq);
+CREATE UNIQUE INDEX username ON users (username);
+
+CREATE TABLE buyer (
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	user_id INTEGER NOT NULL,
+	symbol TEXT NOT NULL,
+	company_name TEXT NOT NULL,
+	price NUMERIC NOT NULL,
+	shares INTEGER NOT NULL,
+	time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN key (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE stock (
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	user_id INTEGER NOT NULL,
+	symbol TEXT NOT NULL,
+	company_name TEXT NOT NULL,
+	price NUMERIC NOT NULL,
+	shares INTEGER NOT NULL,
+	FOREIGN key (user_id) REFERENCES users(id)
+);
+
+
+UPDATE users SET cash = 10000 WHERE id = 1;
+SELECT * FROM users;
+
+SELECT symbol FROM stock WHERE id = (SELECT DISTINCT stock_id FROM buyer);   // stock_info[ ]
+ 
+SELECT SUM(shares) FROM buyer WHERE user_id = (SELECT id FROM users) GROUP BY stock_id   //stock_share
+
+SELECT SUM(buyer.shares)*stock.price FROM buyer JOIN stock IN buyer.stock_id = stock.id WHERE buyer.user_id = (SELECT id FROM users) GROUP BY stock_id      //stock_value
+
+SELECT cash FROM users
+
+UPDATE users SET cash = 10000 WHERE id = 4;
+export API_KEY=pk_069f638c99544cbfa8d6ed2eca2130cf

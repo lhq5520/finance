@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    index
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="text-start">Symbol</th>
+            <th class="text-start">Name</th>
+            <th class="text-end">Shares</th>
+            <th class="text-end">Price</th>
+            <th class="text-end">TOTAL</th>
+        </tr>
+    </thead>
+
+   <tbody>
+            {% for row in range(purchased_stock|length) %}
+            <tr>
+                <td class="text-start">{{purchased_stock[row]["symbol"]}}</td>
+                <td class="text-start">{{purchased_stock[row]["company_name"]}}</td>
+                <td class="text-end">{{purchased_stock[row]["shares"]}}</td>
+                <td class="text-end">{{stock_price[row] | usd}}</td>
+                <td class="text-end">{{stock_total[row] | usd}}</td>
+            </tr>
+            {% endfor %}
+    </tbody>
+
+
+    <tfoot>
+        <tr>
+            <td class="border-0 fw-bold text-end" colspan="4">Cash</td>
+            <td class="border-0 text-end">{{total_cash[0]["cash"] | usd}}</td>
+        </tr>
+        <tr>
+            <td class="border-0 fw-bold text-end" colspan="4">TOTAL</td>
+            <td class="border-0 w-bold text-end">{{total_amount | usd}}</td>
+        </tr>
+    </tfoot>
+
+</table>
+{% endblock %}
